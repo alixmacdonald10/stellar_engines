@@ -22,7 +22,13 @@ fn main() {
         .add_plugins(MainMenuPlugin)
         .add_plugins(GamePlayPlugin)
         .add_plugins(GameOverPlugin)
+        .add_systems(Startup, spawn_camera)
         .add_systems(Update, transition_app_state)
         .add_systems(Update, exit_game)
         .run();
+}
+
+
+fn spawn_camera(mut commands: Commands) {
+    commands.spawn(Camera2dBundle::default());
 }
