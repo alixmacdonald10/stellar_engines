@@ -12,28 +12,33 @@ pub enum AppState {
     GameOver,
 }
 
-
-pub fn transition_to_game_state(
-    input: Res<Input<KeyCode>>,
+pub fn set_game_state(
     mut app_state: ResMut<NextState<AppState>>,
 ) {
-    if input.just_pressed(KeyCode::G) {
-        if app_state.0 != Some(AppState::Game) {
-            app_state.set(AppState::Game);
-            println!("Entered AppState::Game");
-        }
-    }
+    app_state.set(AppState::MainMenu);
+    println!("Defaulting to  AppState::MainMenu");
 }
 
-pub fn transition_to_main_menu_state(
+
+pub fn transition_app_state(
     input: Res<Input<KeyCode>>,
-    mut app_state: ResMut<NextState<AppState>>,
+    app_state: Res<State<AppState>>,
+    mut next_app_state: ResMut<NextState<AppState>>,
 ) {
-    if input.just_pressed(KeyCode::M) {
-        if app_state.0 != Some(AppState::MainMenu) {
-            app_state.set(AppState::MainMenu);
-            println!("Entered AppState::MainMenu");
-        }
+    match app_state.get() {
+        AppState::MainMenu => {
+            if input.just_pressed(KeyCode::G) {
+                next_app_state.set(AppState::Game);
+                println!("Entered AppState::Game");
+            }
+        },
+        AppState::Game => {
+            if input.just_pressed(KeyCode::M) {
+                next_app_state.set(AppState::MainMenu);
+                println!("Entered AppState::MainMenu");
+            }
+        },
+        _ => (),
     }
 }
 

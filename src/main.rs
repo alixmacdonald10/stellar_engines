@@ -10,8 +10,7 @@ use crate::game_play::GamePlayPlugin;
 use crate::game_over::GameOverPlugin;
 use crate::utils::app_state::{
     AppState,
-    transition_to_game_state,
-    transition_to_main_menu_state,
+    transition_app_state,
     exit_game
 };
 
@@ -23,8 +22,7 @@ fn main() {
         .add_plugins(MainMenuPlugin)
         .add_plugins(GamePlayPlugin)
         .add_plugins(GameOverPlugin)
-        .add_systems(Update, transition_to_game_state)
-        .add_systems(Update, transition_to_main_menu_state)
+        .add_systems(Update, transition_app_state)
         .add_systems(Update, exit_game)
         .run();
 }
